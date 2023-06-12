@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/data")
 public class UserDataGeneratorController {
 
     @GetMapping("/{noOfRecords}")
-    public ResponseEntity<?> findById(@PathVariable int noOfRecords) {
+    public ResponseEntity<?> findById(@PathVariable int noOfRecords) throws IOException {
         return ResponseEntity.ok(FakeDataGenerator.getData(noOfRecords));
 
     }
