@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
@@ -67,7 +70,7 @@ public class FakeDataGenerator {
             "East Isaacmouth", "Carolynhaven", "West Karmen", "Schaeferchester", "Kunzeport", "Weissnatton", "East Wallyfurt", "Port Verenaview", "Lake Lidiahaven", "Tillmanside");
 
 
-    public static List<UserData> getData(int noOfRecords) {
+    public static List<UserData> getData(int noOfRecords) throws IOException {
 //        String fullName = FAKER.name().fullName();
 //        String title = FAKER.name().title();
 //        String suffix = FAKER.name().suffix();
@@ -86,8 +89,10 @@ public class FakeDataGenerator {
         if (noOfRecords == 0) noOfRecords = 1000000;
 
         List<UserData> userData = new ArrayList<>();
-        ;
 
+
+        FileWriter fileWriter = new FileWriter("UserData.json");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
         for (int i = 0; i < noOfRecords; i++) {
 
             String action = ACTIONS.get(new Random().nextInt(ACTIONS.size()));
@@ -105,16 +110,21 @@ public class FakeDataGenerator {
                     .logTime(SIMPLE_DATE_FORMAT.format(date))
                     .build();
 
-            userData.add(user);
+//            System.out.println(user);
+            printWriter.println(user);
+
+//            userData.add(user);
 
         }
+
+        printWriter.close();
+
         return userData;
     }
 }
 
 @Data
 @Builder
-@ToString
 class UserData {
     private String userId;
     //    private String username;
@@ -124,6 +134,18 @@ class UserData {
     private String paymentMethod;
     private String logDate;
     private String logTime;
+
+    @Override
+    public String toString() {
+        return "{\"userId=\"" + userId + "\"" +
+                ", \"location=\"" + location + "\"" +
+                ", \"sessionId=\"" + sessionId + "\"" +
+                ", \"url=\"" + url + "\"" +
+                ", \"paymentMethod=\"" + paymentMethod + "\"" +
+                ", \"logDate=\"" + logDate + "\"" +
+                ", \"logTime=\"" + logTime + "\"" +
+                "}";
+    }
 
 }
 
