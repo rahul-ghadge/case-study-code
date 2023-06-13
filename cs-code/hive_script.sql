@@ -42,6 +42,21 @@ SET mapreduce.framework.name=local;
 --insert into click_stream_partitioned_data partition (Location) select * from click_stream_data limit 1000;
 
 
+--------------------------------------------------------------------------------------------------------------
+-- For testing added 100 records in new table
+--------------------------------------------------------------------------------------------------------------
+
+drop table if exists click_stream_data_100;
+
+create table click_stream_data_100(UserID string, Location string, SessionID string, URL string, PaymentMethod string, LogDate string, LogTime string)
+ROW FORMAT SERDE
+  'org.apache.hive.hcatalog.data.JsonSerDe';
+  
+  
+load data local inpath '/home/hadoop/case-study/UserData-100.json' into table click_stream_data_100;
+
+--------------------------------------------------------------------------------------------------------------
+
 
 
 --drop table if exists location_wise_analysis;
@@ -53,6 +68,7 @@ SET mapreduce.framework.name=local;
 --drop table if exists day_wise_count;
 --create table day_wise_count(LogDate string, No_Of_Users int) row format delimited fields terminated by',' location '/home/hadoop/case-study/outputs/day_wise_count';
 --insert into day_wise_count select LogDate, count(UserID) from click_stream_partitioned_data group by LogDate;
+
 
 
 
