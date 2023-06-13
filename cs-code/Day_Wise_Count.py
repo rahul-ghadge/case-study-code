@@ -23,4 +23,4 @@ df1.show()
 
 df1.write.mode('overwrite').format('csv').option('header','true').saveAsTable("spark_output.day_wise_count")
 
-df1.toPandas().to_excel('home/hadoop/case-study/outputs/outputs/day_wise_count.xlsx', sheet_name = 'Sheet1', index = False)
+df1.toPandas().to_excel('home/hadoop/case-study/outputs/day_wise_count.xlsx', sheet_name = 'Sheet1', index = False)
